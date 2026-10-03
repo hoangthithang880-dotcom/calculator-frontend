@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="light">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="演算台：保留完整表达式，实时预览，记录每一次计算。">
+    <title>演算台 · 算清楚，也记下来</title>
+    <link rel="icon" href="src/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="src/style.css">
+    <script src="src/config.js" defer></script>
+    <script src="src/app.js" defer></script>
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <a class="brand" href="./" aria-label="演算台首页">
+          <span class="brand-mark" aria-hidden="true">∑</span>
+          <span>演算台<small>CALC NOTES</small></span>
+        </a>
+        <div class="topbar-actions">
+          <span id="connection" class="connection" role="status"><i></i><span>正在连接</span></span>
+          <button id="theme-button" class="icon-button" aria-label="切换深色主题" title="切换主题">◐</button>
+          <button id="help-button" class="icon-button" aria-label="打开使用说明" title="使用说明">?</button>
+          <button id="settings-button" class="icon-button" aria-label="打开连接设置" title="连接设置">⚙</button>
+        </div>
+      </header>
+
+      <main>
+        <div class="intro">
+          <div><p class="eyebrow">A LITTLE SPACE FOR BIG IDEAS</p><h1>算清楚，也记下来<span>。</span></h1></div>
+          <p class="intro-note">完整输入 · 即时预览 · 留存每一步</p>
+        </div>
+        <div class="workspace">
+          <section class="calculator-card" aria-labelledby="calculator-title">
+            <div class="card-heading"><h2 id="calculator-title"><span class="section-number">01</span>计算空间</h2><span class="small-label">EXPRESSION → RESULT</span></div>
+            <div class="screen">
+              <div class="screen-label"><label for="expression">输入表达式</label><span id="input-counter">0 / 128</span></div>
+              <div id="input-area" class="input-area">
+                <input id="expression" type="text" inputmode="text" placeholder="0" autocomplete="off" spellcheck="false" aria-describedby="input-hint message">
+              </div>
+              <div class="result-row"><span id="result-label">实时结果</span><output id="result" for="expression" aria-live="polite">—</output></div>
+            </div>
+            <div id="message" class="message" role="status" aria-live="polite">输入一个表达式，结果会在下方出现。</div>
+            <div class="extension-keys" aria-label="扩展运算">
+              <button data-insert="^" title="整数次幂，如 2^3">x<sup>y</sup><span>幂</span></button>
+              <button data-insert="sqrt(" title="平方根，如 sqrt(9)">√<span>平方根</span></button>
+              <button data-insert="%" title="百分数，50% 表示 0.5">%<span>百分数</span></button>
+              <button id="example-button" title="填入一个含括号的示例">试个例子 <span aria-hidden="true">↗</span></button>
+            </div>
+            <div class="keypad" aria-label="计算器按键">
+              <button class="key utility" data-action="clear" aria-label="清空表达式">AC</button>
+              <button class="key utility" data-action="backspace" aria-label="删除光标前一个字符">⌫</button>
+              <button class="key utility" data-insert="(" aria-label="左括号">(</button>
+              <button class="key utility" data-insert=")" aria-label="右括号">)</button>
+              <button class="key" data-insert="7">7</button><button class="key" data-insert="8">8</button><button class="key" data-insert="9">9</button><button class="key operator" data-insert="÷" aria-label="除">÷</button>
+              <button class="key" data-insert="4">4</button><button class="key" data-insert="5">5</button><button class="key" data-insert="6">6</button><button class="key operator" data-insert="×" aria-label="乘">×</button>
+              <button class="key" data-insert="1">1</button><button class="key" data-insert="2">2</button><button class="key" data-insert="3">3</button><button class="key operator" data-insert="−" aria-label="减">−</button>
+              <button class="key utility" data-action="sign" title="对整个当前表达式取负">±</button><button class="key" data-insert="0">0</button><button class="key" data-insert=".">.</button><button class="key operator" data-insert="+" aria-label="加">+</button>
+            </div>
+            <button id="calculate-button" class="calculate-button"><span>计算并保存 <strong>=</strong></span><kbd>Enter ↵</kbd></button>
+            <p id="input-hint" class="input-hint">支持键盘输入 · 先乘除后加减 · 括号优先</p>
+          </section>
+
+          <aside class="history-card" aria-labelledby="history-title">
+            <div class="card-heading"><h2 id="history-title"><span class="section-number">02</span>计算手记</h2><button id="export-button" class="text-button" disabled>导出 CSV ↗</button></div>
+            <div class="history-summary"><span>每次确认，自动留存</span><span id="history-count">0 条记录</span></div>
+            <label class="search-box"><span aria-hidden="true">⌕</span><input id="history-search" type="search" placeholder="搜索表达式或结果" aria-label="搜索计算历史" maxlength="256"></label>
+            <div id="history-state" class="history-state" role="status"><span class="empty-symbol" aria-hidden="true">↳</span><h3>正在打开手记</h3><p>从记录服务读取你的计算。</p></div>
+            <ol id="history-list" class="history-list" aria-label="计算历史"></ol>
+            <div class="pagination"><button id="previous-page" class="page-button" aria-label="上一页" disabled>←</button><span id="page-label">第 1 页</span><button id="next-page" class="page-button" aria-label="下一页" disabled>→</button></div>
+            <div class="history-note"><span aria-hidden="true">↖</span><p>点击算式可以再次编辑。<br>刷新页面，手记依然在这里。</p></div>
+          </aside>
+        </div>
+      </main>
+      <footer><span>CALC NOTES / 演算台</span><span>让每一步思考，都有迹可循。</span></footer>
+    </div>
+
+    <dialog id="help-dialog" class="dialog">
+      <div class="dialog-heading"><h2>让计算更顺手</h2><button data-close-dialog class="icon-button" aria-label="关闭说明">×</button></div>
+      <p>结果由计算服务实时返回。按 <kbd>Enter</kbd> 或「计算并保存」，把这次计算留在手记里。</p>
+      <dl class="shortcut-list"><div><dt>计算并保存</dt><dd>Enter / =</dd></div><div><dt>删除一个字符</dt><dd>Backspace</dd></div><div><dt>清空输入</dt><dd>Esc</dd></div><div><dt>乘除</dt><dd>* /</dd></div></dl>
+      <p class="help-example">试试 <code>(12+3)×4</code>、<code>3×−2</code>、<code>2^3</code> 或 <code>sqrt(9)</code>。</p>
+      <p class="subtle">百分数按数学定义计算：50% = 0.5，100+10% = 100.1。幂仅支持 -100 到 100 的整数指数；不支持隐式乘法，请把 2(3+4) 写成 2×(3+4)。按 ± 会对整个当前算式取负。</p>
+    </dialog>
+    <dialog id="settings-dialog" class="dialog">
+      <form id="settings-form">
+        <div class="dialog-heading"><h2>连接设置</h2><button type="button" data-close-dialog class="icon-button" aria-label="关闭连接设置">×</button></div>
+        <label for="api-url">计算服务地址</label><input id="api-url" class="settings-input" type="url" required placeholder="http://127.0.0.1:5001">
+        <p class="subtle">地址填写到端口或域名即可，不需要加 /api。部署后，在这里连接你的计算服务。</p>
+        <p id="settings-error" class="settings-error" role="alert"></p>
+        <button class="calculate-button" type="submit">保存并重新连接</button>
+      </form>
+    </dialog>
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  </body>
+</html>

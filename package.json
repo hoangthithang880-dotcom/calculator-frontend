@@ -1,0 +1,8 @@
+{
+  "name": "calc-notes-frontend",
+  "version": "1.0.0",
+  "private": true,
+  "description": "演算台静态前端；Node 仅用于可选浏览器测试",
+  "scripts": {"test": "node tests/browser-test.cjs"},
+  "devDependencies": {"playwright": "1.62.1"}
+}
