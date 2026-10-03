@@ -130,6 +130,7 @@ async function screenshot(page, name) {
     await resultIs(page, '0.3');
     checks.push('从历史记录复用完整算式');
     const id = await page.locator('.history-item').first().getAttribute('data-id');
+    page.once('dialog', (dialog) => dialog.accept());
     await page.locator('.delete-button').first().click();
     await page.waitForFunction(() => document.querySelector('#history-count').textContent === '0 条记录');
     assert.equal((await getHistory()).items.some((item) => item.id === Number(id)), false);

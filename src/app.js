@@ -285,6 +285,9 @@ function historyItem(record) {
   remove.title = '删除这条记录';
   remove.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13M10 10v7M14 10v7" stroke-linecap="round" stroke-linejoin="round"/></svg>';
   remove.addEventListener('click', async () => {
+    const confirmed = window.confirm('确定删除这条计算记录吗？删除后无法恢复。');
+    if (!confirmed) return;
+
     remove.disabled = true;
     try {
       await apiRequest(`/api/history/${record.id}`, {method: 'DELETE'});
