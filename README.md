@@ -2,6 +2,16 @@
 
 HTML/CSS/原生 JavaScript 的静态网页。纸感浅色与深绿主题，左侧完整表达式及后端实时结果，右侧数据库计算手记。**前端没有数学求值器**，没有把历史保存在 localStorage 来假冒后端数据库。
 
+## 在线演示
+
+- 在线网页：https://hoangthithang880-dotcom.github.io/calculator-frontend/
+- 前端仓库：https://github.com/hoangthithang880-dotcom/calculator-frontend
+- 后端 API：https://hoangthithang880.pythonanywhere.com
+- 后端健康检查：https://hoangthithang880.pythonanywhere.com/api/health
+- 后端仓库：https://github.com/hoangthithang880-dotcom/calculator-backend
+
+2026 年 10 月 3 日完成公网部署和实际验证。复合表达式计算、错误提示、历史记录保存、后端重新加载后的数据持久化，以及指定记录删除功能均运行正常。
+
 ## 本地启动
 
 在此 README 所在目录：
@@ -22,7 +32,7 @@ Windows 用 `py -3 -m http.server 8080 --bind 127.0.0.1`。打开 `http://127.0.
 
 ```javascript
 window.CALC_CONFIG = {
-  apiBaseUrl: 'http://127.0.0.1:5001',
+  apiBaseUrl: 'https://hoangthithang880.pythonanywhere.com',
   previewDelay: 280,
   requestTimeout: 10000,
 };
@@ -77,4 +87,4 @@ npm test
 
 GitHub Pages 示例：仓库根目录必须包含 index.html 和 src/；Settings → Pages 选择 main、`/(root)`，按实际界面启用。前端不需要 Build Command。HTTPS 后端另外部署，再编辑 config.js。仓库页面 URL **不是** API URL；提交博客需要真实公网网页入口，并从另一个设备验证计算、查询及单条删除。
 
-前后端应按老师要求使用两个独立仓库。本交付包未创建、推送或部署任何仓库。规范：[codestyle.md](codestyle.md)。API 原理：[MDN Fetch](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch)。代码、样式为本项目编写，AI 辅助测试与生成，提交者需按课程规则披露并理解核验。
+前后端应按老师要求使用两个独立仓库。前端已部署至 GitHub Pages，后端已部署至 PythonAnywhere。在线版本已经通过浏览器实际验证计算、查询、历史记录持久化及单条删除功能。规范：[codestyle.md](codestyle.md)。API 原理：[MDN Fetch](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch)。代码、样式为本项目编写，AI 辅助测试与生成。
